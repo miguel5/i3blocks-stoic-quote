@@ -12,4 +12,21 @@ num_quotes = len(json_data['data'])
 
 random_quote = random.randint(0,num_quotes-1) 
 
-print(json_data['data'][random_quote]['attributes']['text'])
+authors = {}
+
+authors_data = json_data['included']
+
+# Build the id -> author_name dictionary 
+for author in authors_data:
+	id = author['id']
+	name = author['attributes']['name']
+	authors[id] = name
+
+quote = json_data['data'][random_quote]['attributes']['text']
+
+quote_author_id = json_data['data'][random_quote]['relationships']['author']['data']['id']
+
+author_name = authors[quote_author_id]
+
+print('"' + quote + '"' + ' - ' + author_name)
+
